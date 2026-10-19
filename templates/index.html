@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f6fb;
+            color: #1f2937;
+        }
+        header {
+            background: #1d4ed8;
+            color: white;
+            padding: 24px 16px;
+            text-align: center;
+        }
+        main { max-width: 900px; margin: 28px auto; padding: 0 16px; }
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+        h2 { margin-top: 0; }
+        form.add-form {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        input {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+        }
+        button {
+            border: 0;
+            border-radius: 7px;
+            padding: 10px 14px;
+            color: white;
+            background: #1d4ed8;
+            cursor: pointer;
+        }
+        .add-form button { grid-column: 1 / -1; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background: #eff6ff; }
+        .delete { background: #dc2626; }
+        .empty { color: #64748b; text-align: center; }
+        @media (max-width: 600px) {
+            form.add-form { grid-template-columns: 1fr; }
+            .table-wrap { overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Student Management System</h1>
+        <p>Add, view and remove student records</p>
+    </header>
+    <main>
+        <section class="card">
+            <h2>Add a Student</h2>
+            <form class="add-form" action="/add" method="post">
+                <input name="roll" placeholder="Roll number" required>
+                <input name="name" placeholder="Student name" required>
+                <input name="department" placeholder="Department (e.g. CSE)" required>
+                <button type="submit">Add Student</button>
+            </form>
+        </section>
+        <section class="card">
+            <h2>Student Records ({{ students|length }})</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr><th>Roll No.</th><th>Name</th><th>Department</th><th>Action</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ student.roll }}</td>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.department }}</td>
+                            <td>
+                                <form action="/delete/{{ student.roll }}" method="post">
+                                    <button class="delete" type="submit">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="4" class="empty">No students added yet.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
