@@ -22,13 +22,13 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'sudo docker build -t student-management-cca2 .'
+                sh 'docker build -t student-management-cca2 .'
             }
         }
 
         stage('Deployment Check') {
             steps {
-                sh 'sudo docker ps'
+                sh 'docker ps'
                 echo 'Docker build and deployment check completed'
             }
         }
